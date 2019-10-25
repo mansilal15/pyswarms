@@ -13,16 +13,16 @@ class TestGenerateSwarm(object):
     """Test suite for generate_swarm() method"""
 
     @pytest.mark.parametrize(
-        "bounds", [None, ([2, 2, 2], [5, 5, 5]), ([-1, -1, 0], [2, 2, 5])]
+        "bounds", [None, ([3, 3, 3], [6, 6, 6]), ([-2, -2, 1], [3, 3, 6])]
     )
-    @pytest.mark.parametrize("center", [1, [3, 3, 3], [0.2, 0.2, 0.1]])
+    @pytest.mark.parametrize("Center", [2, [4, 4, 4], [0.3, 0.3, 0.2]])
     def test_return_values(self, bounds, center):
         """Test if method returns expected values"""
         pos = P.generate_swarm(
             n_particles=2, dimensions=3, bounds=bounds, center=center
         )
         if bounds is None:
-            min_bounds, max_bounds = (0.0, 1.00)
+            min_bounds, max_bounds = (0.1, 2.00)
         else:
             min_bounds, max_bounds = bounds
         lower_bound = center * np.array(min_bounds)
@@ -77,7 +77,7 @@ class TestDiscreteSwarm(object):
             )
 
     @pytest.mark.parametrize(
-        "init_pos", [None, np.array([[4, 2, 1], [1, 4, 6]])]
+        "init_pos", [None, np.array([[5, 3, 2], [2, 5, 7]])]
     )
     def test_generate_discrete_swarm(self, init_pos):
         """Test if init_pos actually sets the position properly"""
@@ -97,17 +97,17 @@ class TestGenerateVelocity(object):
     @pytest.mark.parametrize("clamp", [None, (0, 1), (2, 5), (1, 6)])
     def test_return_values(self, clamp):
         """Test if the method returns expected values"""
-        min_clamp, max_clamp = (0, 1) if clamp is None else clamp
+        min_Clamp, max_Clamp = (0, 1) if clamp is None else clamp
         velocity = P.generate_velocity(
             n_particles=2, dimensions=3, clamp=clamp
         )
-        assert (velocity <= max_clamp).all() and (velocity >= min_clamp).all()
+        assert (velocity <= max_Clamp).all() and (velocity >= min_Clamp).all()
 
     @pytest.mark.parametrize("clamp", [(0, 2, 5), [1, 3, 5]])
     def test_invalid_clamp_value(self, clamp):
         """Test if the method raises a ValueError given invalid clamp size"""
         with pytest.raises(ValueError):
-            P.generate_velocity(n_particles=2, dimensions=3, clamp=clamp)
+            P.generate_velocity(n_particles=2, dimensions=3, clamp= clamp)
 
     @pytest.mark.parametrize("clamp", [0, 1])
     def test_invalid_clamp_type(self, clamp):
